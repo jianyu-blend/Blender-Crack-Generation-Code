@@ -5,7 +5,7 @@ and the data can be downloaded independently.
 
 | Dataset | Where |
 |---|---|
-| BCG synthetic images and labels | `<dataset repository URL — fill in on release>` |
+| BCG synthetic images and labels | [Blender Crack Generation Dataset](https://github.com/jianyu-blend/Blender-Crack-Generation-Dataset) |
 | MCrack1300 real images and annotations | [MCrack1300 on Roboflow](https://universe.roboflow.com/acsalab/masonry-zqhaw) |
 
 The dataset repository carries the full description: the directory layout, the class order, what
