@@ -48,7 +48,7 @@ split_seed: 42
 
 
 # Downstream segmentation training, used only by
-# 05_downstream_training/example_yolo_active_learning.py.
+# 04_downstream_training/example_yolo_active_learning.py.
 downstream:
 
   # Working directory for the acquisition runs. Datasets, weights and metrics

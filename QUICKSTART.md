@@ -161,4 +161,4 @@ python .\02_blender_generation\masks_to_yolo_polygons.py --masks .\outputs\rende
 ```
 
 For the learned-prior evaluation and downstream active-learning experiments, continue with the
-README files in `03_prior_evaluation` and `05_downstream_training`.
+README files in `03_prior_evaluation` and `04_downstream_training`.

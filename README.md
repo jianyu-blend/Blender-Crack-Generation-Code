@@ -16,12 +16,8 @@ an automatically generated instance annotation for brick, broken brick and crack
 MCrack1300 or another YOLO-seg masonry dataset (download separately)
        |
        v
-01_crack_path_generation/preprocessing
-   rasterise labels -> reconstruct crack-free wall masks
-       |
-       v
 01_crack_path_generation
-   train U-Net -> generate wall/crack TXT files -> refine crack coordinates
+   rasterise labels -> reconstruct masks -> train U-Net -> generate/refine wall and crack coordinates
        |
        v
 02_blender_generation
@@ -31,7 +27,7 @@ MCrack1300 or another YOLO-seg masonry dataset (download separately)
        |
        +--------------------> optional YOLO polygon labels
 
-03_prior_evaluation                 05_downstream_training
+03_prior_evaluation                 04_downstream_training
    learned prior vs uniform prior      real/synthetic/hybrid segmentation experiments
 ```
 
@@ -44,8 +40,8 @@ For copy-and-paste Windows terminal commands, start with [QUICKSTART.md](QUICKST
 | `01_crack_path_generation/` | Mask preprocessing, procedural masonry layouts, the crack-probability U-Net and crack-path smoothing |
 | `02_blender_generation/` | Blender scene construction, Boolean crack geometry, rendering, and label-to-polygon conversion |
 | `03_prior_evaluation/` | Paired comparison of learned and uniform spatial priors, and the goal-bias and inertia grid |
-| `05_downstream_training/` | Training protocols, selection scores and one complete acquisition-loop example |
-| `06_datasets/` | Where to obtain the released BCG dataset |
+| `04_downstream_training/` | Training protocols, selection scores and one complete acquisition-loop example |
+| `05_datasets/` | Where to obtain the released BCG dataset |
 | `docs/` | Illustrative figures used by the READMEs |
 
 Each directory with non-obvious setup carries its own README.
@@ -210,9 +206,9 @@ Reproduce the learned-prior comparison and the eighteen-setting grid:
 
 Run one downstream acquisition curve:
 
-    python -u 05_downstream_training/example_yolo_active_learning.py
+    python -u 04_downstream_training/example_yolo_active_learning.py
 
 It reads `experiment_root` and `synthetic_pool` from the `downstream:` block of
 `config.yaml`, so set those two before running it.
 
-See `05_downstream_training/README.md` for the training protocols and the selection scores.
+See `04_downstream_training/README.md` for the training protocols and the selection scores.

@@ -8,8 +8,8 @@ Inventory of this repository and its relationship to the manuscript. 43 files, a
 | `01_crack_path_generation/` | 8 + 2 READMEs | Mask preprocessing and learning-guided crack-coordinate generation |
 | `02_blender_generation/` | 5 + README | Blender scene generation, two required `.blend` files and automatic annotation |
 | `03_prior_evaluation/` | 10 + README | Evaluation of the learned spatial prior; prior-path results |
-| `05_downstream_training/` | 1 + README | Training and evaluation protocol; sample selection |
-| `06_datasets/` | README | Reserved for the released datasets |
+| `04_downstream_training/` | 1 + README | Training and evaluation protocol; sample selection |
+| `05_datasets/` | README | Reserved for the released datasets |
 
 ---
 
@@ -105,7 +105,7 @@ This release contains the final method as one self-contained pipeline. The rewri
 No file name or module carries a version suffix. The complete pipeline was run end to end on a
 synthetic workspace, from `prepare` through `report`.
 
-## 4. `05_downstream_training/`
+## 4. `04_downstream_training/`
 
 The downstream experiments use unmodified public implementations, so the training settings are
 documented in `README.md` rather than shipped as one script per condition. That README holds
@@ -126,7 +126,7 @@ The 400-epoch data-source and hybrid-augmentation runs were executed on a differ
 no script for them is present in the working repository. Their settings are documented in
 `README.md`, but the repository holds no code for that schedule.
 
-## 5. `06_datasets/`
+## 5. `05_datasets/`
 
 Holds no data, and points at the dataset repository instead. The BCG images are released as a
 separate repository, so that the code and the data can be downloaded independently and the
