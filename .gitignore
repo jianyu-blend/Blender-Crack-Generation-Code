@@ -1,0 +1,30 @@
+# Local configuration; copy config.example.yaml to create it.
+config.yaml
+
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+.ipynb_checkpoints/
+
+# Generated outputs
+runs/
+outputs/
+*.log
+
+# Large binaries. Figures under docs/ are tracked.
+*.blend
+*.blend1
+*.exr
+
+# The two small Blender files required by the generator are intentionally
+# versioned. External HDRI/EXR files remain local.
+!02_blender_generation/Asset_Library.blend
+!02_blender_generation/Dataset_Generator.blend
+HDRI/
+
+# MCrack1300 is downloaded separately and must never be committed here.
+MCrack1300/
+mcrack1300/

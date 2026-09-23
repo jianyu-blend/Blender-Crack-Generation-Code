@@ -1,0 +1,20 @@
+# Python dependencies for the analysis, evaluation and training code.
+# The Blender stage runs inside Blender 4.5 LTS and needs none of these.
+
+# numba compiles against the NumPy ABI, so the two must match. Installing a
+# newer NumPy than the numba build supports fails at import with
+# "Numba needs NumPy 2.0 or less".
+numpy>=1.24,<2.1
+numba>=0.60
+
+scipy>=1.10
+opencv-python>=4.8
+Pillow>=10.0
+matplotlib>=3.7
+pandas>=2.0
+PyYAML>=6.0
+tqdm>=4.65
+
+# Crack-probability U-Net and the downstream segmentation models.
+torch>=2.0
+ultralytics>=8.0

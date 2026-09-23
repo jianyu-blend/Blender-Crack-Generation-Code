@@ -1,0 +1,159 @@
+{
+  "_comment": [
+    "Generation presets (Methodology, 'Generation presets').",
+    "Each preset combines one of three view ranges with one of five crack-width labels.",
+    "delta_c, delta_b and delta_m are voxel-remeshing resolutions in scene units for the",
+    "Boolean crack mesh, the bricks affected by Boolean cutting and the mortar mesh.",
+    "bevel is the [d_min, d_max] range from which one global bevel depth is sampled.",
+    "focal is the [f_min, f_max] range in millimetres used to sample the camera focal length.",
+    "The scene is built at scale_factor = 5 scene units per metre-of-wall, so a sampled bevel",
+    "value v gives a cutting radius of v * 0.01 scene units, that is 2 * v millimetres, and a",
+    "nominal crack width of 4 * v millimetres. The local radius multiplier r_i = r_0 + e_i has",
+    "r_0 = 1.0 and e_i ~ U(-0.2, 0.2), so r_i lies in [0.8, 1.2] and the instantaneous width",
+    "4 * v * r_i varies by +/-20 per cent along the curve about that nominal value.",
+    "Each bevel range is therefore the crack-width label divided by 4: the nominal width spans",
+    "exactly the labelled band, and r_i supplies the local variation within a single crack.",
+    "Cracks narrower than 3 mm carry no Boolean geometry: they are produced by the procedural",
+    "material textures, so their voxel and bevel entries are null."
+  ],
+  "scale_factor": 5,
+  "crack_width_labels": [
+    "lt3mm",
+    "3to5mm",
+    "5to10mm",
+    "10to30mm",
+    "gt30mm"
+  ],
+  "view_ranges": [
+    "close",
+    "middle",
+    "far"
+  ],
+  "focal_length_mm": {
+    "close": [
+      60,
+      200
+    ],
+    "middle": [
+      30,
+      100
+    ],
+    "far": [
+      15,
+      60
+    ]
+  },
+  "crack_width": {
+    "lt3mm": {
+      "boolean_geometry": false,
+      "delta_c": null,
+      "delta_b": null,
+      "delta_m": null,
+      "bevel": null
+    },
+    "3to5mm": {
+      "boolean_geometry": true,
+      "delta_c": 0.005,
+      "delta_b": 0.005,
+      "delta_m": 0.006,
+      "bevel": [
+        0.75,
+        1.25
+      ]
+    },
+    "5to10mm": {
+      "boolean_geometry": true,
+      "delta_c": 0.005,
+      "delta_b": 0.005,
+      "delta_m": 0.006,
+      "bevel": [
+        1.25,
+        2.5
+      ]
+    },
+    "10to30mm": {
+      "boolean_geometry": true,
+      "delta_c": 0.009,
+      "delta_b": 0.009,
+      "delta_m": 0.01,
+      "bevel": [
+        2.5,
+        7.5
+      ]
+    },
+    "gt30mm": {
+      "boolean_geometry": true,
+      "delta_c": 0.009,
+      "delta_b": 0.009,
+      "delta_m": 0.01,
+      "bevel": [
+        7.5,
+        12.5
+      ]
+    }
+  },
+  "crack_side_motion": {
+    "_comment": [
+      "Differential movement of the two sides of the crack. The wall file records the side",
+      "each brick lies on, which allows the two sides to be displaced independently.",
+      "Angles are degrees, translations are scene units."
+    ],
+    "stay": {
+      "rotation_z_deg": [
+        0.0,
+        0.0
+      ],
+      "rotation_y_deg": [
+        0.0,
+        0.0
+      ],
+      "translation_x": [
+        0.0,
+        0.0
+      ],
+      "translation_z": [
+        0.0,
+        0.0
+      ],
+      "rotation_probability": 0.0
+    },
+    "translation": {
+      "rotation_z_deg": [
+        0.0,
+        0.0
+      ],
+      "rotation_y_deg": [
+        0.0,
+        0.0
+      ],
+      "translation_x": [
+        -0.01,
+        0.0
+      ],
+      "translation_z": [
+        0.0,
+        0.03
+      ],
+      "rotation_probability": 0.0
+    },
+    "settling": {
+      "rotation_z_deg": [
+        0.0,
+        4.0
+      ],
+      "rotation_y_deg": [
+        -3.0,
+        -1.0
+      ],
+      "translation_x": [
+        0.02,
+        0.06
+      ],
+      "translation_z": [
+        -0.04,
+        -0.02
+      ],
+      "rotation_probability": 0.5
+    }
+  }
+}

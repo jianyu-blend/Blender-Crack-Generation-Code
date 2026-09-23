@@ -1,0 +1,77 @@
+# BCG configuration.
+#
+#   cp config.example.yaml config.yaml
+#   python bcg_config.py          # prints the resolved locations
+#
+# Only the first two entries have to be set. A relative path is taken from the
+# repository root. config.yaml is not tracked by git.
+
+
+# ---------------------------------------------------------------- required
+
+# An annotated masonry dataset in YOLO segmentation format. It holds train/,
+# valid/ and test/, each with images/ and labels/, and a data.yaml beside them.
+# Read only; nothing is written here.
+#
+# The annotations must use the three classes this framework works with, in this
+# order: 0 brick, 1 broken brick, 2 crack. Any other class in the export is
+# ignored. Masks are read at whatever resolution they are stored at and the
+# crack-probability model is trained on 512 x 512 crops.
+#
+# The manuscript uses MCrack1300 (doi:10.1016/j.aei.2024.102826), whose
+# 1000/150/150 partition is what the reported numbers refer to, but nothing in
+# the code requires that dataset or those counts. Point this at your own export
+# and the pipeline derives the image counts from the data.
+dataset_root: /path/to/your/masonry_dataset
+
+# Where every derived mask, training run, evaluation and analysis output is
+# written. The scripts create the subdirectories themselves. Allow a few tens
+# of gigabytes if the full evaluation is run.
+workspace_root: /path/to/bcg_workspace
+
+
+# ---------------------------------------------------------------- optional
+
+# The crack-probability U-Net used for the path comparison and for generation.
+# Leave it unset to use the checkpoint your own training run produces at
+# <workspace_root>/runs/crack_unet/best.pt. Set it to point at a checkpoint
+# stored somewhere else.
+unet_checkpoint:
+
+# How many training images are held out for internal validation. The split
+# keeps whole filename families together, so this number has to be reachable
+# as a sum of family sizes. The manuscript holds out 100 of 1000.
+validation_images: 100
+
+# Seed for the training/validation split.
+split_seed: 42
+
+
+# Downstream segmentation training, used only by
+# 05_downstream_training/example_yolo_active_learning.py.
+downstream:
+
+  # Working directory for the acquisition runs. Datasets, weights and metrics
+  # are written under it.
+  experiment_root: /path/to/experiments
+
+  # The BCG synthetic candidate pool that the acquisition loop draws from.
+  # It holds images/ and labels/ in YOLO segmentation format.
+  synthetic_pool: /path/to/pool/BCG
+
+  # The fixed validation partition used for evaluation and checkpoint
+  # selection. Leave it empty to use dataset_root/valid/images.
+  valid_images:
+
+  # Pretrained weights the acquisition loop starts every stage from.
+  model_weights: yolov8x-seg.pt
+
+  # Training settings. The manuscript uses 60 epochs, batch 8 and lr0 0.005.
+  epochs: 60
+  batch: 8
+  learning_rate: 0.005
+  image_size: 640
+
+  # CUDA device index, or "cpu".
+  device: "0"
+  workers: 1
