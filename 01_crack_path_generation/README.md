@@ -8,6 +8,7 @@ probability-guided path sampler.
 
 | File | Role |
 |---|---|
+| `preprocessing/mask_preprocessing.py` | Rasterises YOLO labels, reconstructs crack-free layouts and verifies the saved products |
 | `procedural_layout.py` | Builds the 2D masonry layout and rasterises it |
 | `generate_crack_coordinates.py` | Writes the wall and crack coordinate files for the Blender stage |
 | `unet/prepare.py` | Builds the optimisation and internal-validation split from the reconstructed masks |
@@ -16,9 +17,9 @@ probability-guided path sampler.
 | `unet/predict.py` | Single-view inference on one layout, writing a probability array and a display image |
 | `refine_crack_path.py` | Median and Savitzky-Golay smoothing of the exported coordinates |
 
-The reconstruction itself is not in this directory. It is the `preview-masks` command of
-`../04_real_mask_analysis/real_mask_analysis.py`, and the four-view fusion used for the reported
-evaluation is the `predict` stage of `../03_prior_evaluation/evaluate.py`.
+The reconstruction is the `preview-masks` command in
+`preprocessing/mask_preprocessing.py`. The four-view fusion used for the reported evaluation is
+the `predict` stage of `../03_prior_evaluation/evaluate.py`.
 
 The path sampler itself lives in `../03_prior_evaluation/path_sampler.py`, which is the module
 used by both the production generator and the reported evaluation.
@@ -82,18 +83,19 @@ subset and the 100-image internal-validation subset, with random seed 42.
 ### Producing the training data
 
 `prepare.py` reads a finished reconstruction from `<workspace_root>/masks/train_reconstructed/`.
-Three commands of `../04_real_mask_analysis/real_mask_analysis.py` produce it from the annotated
-dataset, and none of them has to be repeated once it has run:
+Three commands in `preprocessing/mask_preprocessing.py` produce it from the annotated dataset,
+and none of them has to be repeated once it has run:
 
-    cd ../04_real_mask_analysis
-    python real_mask_analysis.py draw-test-masks --partition train --expect-images 1000
-    python real_mask_analysis.py preview-masks \
+Run these commands from the repository root:
+
+    python 01_crack_path_generation/preprocessing/mask_preprocessing.py draw-test-masks --partition train --expect-images 1000
+    python 01_crack_path_generation/preprocessing/mask_preprocessing.py preview-masks \
         --source <workspace>/masks/train_annotations/masks_image \
         --output <workspace>/masks/train_reconstructed --count 1000
-    python real_mask_analysis.py preview-masks \
+    python 01_crack_path_generation/preprocessing/mask_preprocessing.py preview-masks \
         --source <workspace>/masks/train_annotations/masks_image \
         --output <workspace>/analysis/mask_preview_train --count 50
-    python real_mask_analysis.py verify-masks --partition train \
+    python 01_crack_path_generation/preprocessing/mask_preprocessing.py verify-masks --partition train \
         --output <workspace>/masks/train_reconstructed \
         --accepted <workspace>/analysis/mask_preview_train
 
@@ -137,12 +139,9 @@ that the sampled path can be mapped back to wall coordinates in metres.
 | In-brick run length | 0.7 to 1.4 brick heights | Reject implausible traversals |
 | Branch probability | 0.20 or 0.30 | Compensate for camera cropping and vary branch frequency |
 
-The goal bias and inertia coefficient were selected on the published 150-image test partition,
-which is separate from the images used to train and validate the crack-probability model. The
-grid and its evidence are in `../03_prior_evaluation/`. The in-brick run length comes from 104
-high-confidence mortar-to-broken-brick-to-mortar traversals measured in the real training masks,
-and the branch statistics from the 101 of 1000 training images that contain an obvious crack
-branch. Both measurements are reproduced by the scripts in `../04_real_mask_analysis/`.
+The goal bias and inertia coefficient were selected with the eighteen-setting grid in
+`../03_prior_evaluation/`. The fixed traversal and branching controls are recorded with every
+generated run in `generation_summary.json`.
 
 ## Producing the coordinate files
 

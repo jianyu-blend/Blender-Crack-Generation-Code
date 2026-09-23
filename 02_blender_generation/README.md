@@ -52,7 +52,8 @@ Convert the rendered labels afterwards:
 
     python masks_to_yolo_polygons.py --masks <output_dir> --output <labels_dir>
 
-For the external CSG2 binary crack masks:
+For the external [CSG2 v1](https://github.com/DavidHidde/cracked-surface-generation/tree/v1)
+binary crack masks:
 
     python masks_to_yolo_polygons.py --masks <csg2_masks> --output <labels_dir> \
         --binary --class-id 2 --pattern "*.png"

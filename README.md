@@ -16,7 +16,7 @@ an automatically generated instance annotation for brick, broken brick and crack
 MCrack1300 or another YOLO-seg masonry dataset (download separately)
        |
        v
-04_real_mask_analysis
+01_crack_path_generation/preprocessing
    rasterise labels -> reconstruct crack-free wall masks
        |
        v
@@ -41,10 +41,9 @@ For copy-and-paste Windows terminal commands, start with [QUICKSTART.md](QUICKST
 
 | Directory | Contents |
 |---|---|
-| `01_crack_path_generation/` | Procedural masonry layouts, the crack-probability U-Net and crack-path smoothing |
+| `01_crack_path_generation/` | Mask preprocessing, procedural masonry layouts, the crack-probability U-Net and crack-path smoothing |
 | `02_blender_generation/` | Blender scene construction, Boolean crack geometry, rendering, and label-to-polygon conversion |
 | `03_prior_evaluation/` | Paired comparison of learned and uniform spatial priors, and the goal-bias and inertia grid |
-| `04_real_mask_analysis/` | Statistics extracted from the real masks that support the generator parameters |
 | `05_downstream_training/` | Training protocols, selection scores and one complete acquisition-loop example |
 | `06_datasets/` | Where to obtain the released BCG dataset |
 | `docs/` | Illustrative figures used by the READMEs |
@@ -75,10 +74,8 @@ own.
 | Item | Address |
 |---|---|
 | Code, this repository | [github.com/jianyu-blend/Blender-Crack-Generation-Code](https://github.com/jianyu-blend/Blender-Crack-Generation-Code) |
-| Code, archived snapshot for citation | `<Zenodo DOI — fill in on release>` |
-| BCG synthetic dataset | [github.com/jianyu-blend/Blender-Crack-Generation-Dataset](https://github.com/jianyu-blend/Blender-Crack-Generation-Dataset), archived at `<dataset DOI — fill in>` |
-| Crack-probability U-Net weights | `<GitHub release asset — fill in, or train your own>` |
-| Downstream segmentation weights | not released; the experiments train several hundred models |
+| BCG synthetic dataset | [github.com/jianyu-blend/Blender-Crack-Generation-Dataset](https://github.com/jianyu-blend/Blender-Crack-Generation-Dataset) |
+| Downstream segmentation weights | Not released. One model-only checkpoint is approximately 140 MB for YOLOv8x-seg, 430 MB for Mask R-CNN X-101-FPN, or 270 MB for Mask2Former Swin-S. Checkpoints from several hundred runs would require tens of gigabytes; the training configurations and runnable example are provided instead. |
 
 The dataset is released as its own repository, with its own description, checksums and
 verification script. Nothing here has to be downloaded in order to use the dataset, and the
@@ -114,7 +111,8 @@ The partitions are used as follows:
 | 150 validation images | Fixed downstream evaluation set and checkpoint selection, including the checkpoints that score the synthetic pool |
 | 150 test images | Path-generation parameter grid and the learned-prior path comparison |
 
-The external comparison uses CSG2, a published synthetic masonry-surface dataset whose binary
+The external comparison uses [CSG2 v1](https://github.com/DavidHidde/cracked-surface-generation/tree/v1),
+a published synthetic masonry-surface dataset whose binary
 crack masks are converted to YOLO polygons by `02_blender_generation/masks_to_yolo_polygons.py`,
 so that both synthetic sources are annotated by an identical procedure.
 
@@ -128,8 +126,13 @@ guides crack generation for every BCG dataset in the downstream experiments.
 The evaluation code reads the checkpoint through `unet_checkpoint` in `config.yaml`, which
 defaults to `<workspace_root>/runs/crack_unet/best.pt`.
 
-The downstream YOLOv8x-seg, Mask R-CNN and Mask2Former weights are not included either, because
-the experiments train several hundred models.
+The downstream YOLOv8x-seg, Mask R-CNN and Mask2Former weights are not included. Depending on
+framework serialization, one model-only checkpoint is approximately 140 MB for YOLOv8x-seg,
+430 MB for Mask R-CNN X-101-FPN, or 270 MB for Mask2Former Swin-S; checkpoints that retain the
+optimizer state are larger. Keeping the checkpoints from several hundred independent runs would
+therefore add tens of gigabytes of binary files and make the repository impractical to clone.
+The training protocols, configurations and runnable acquisition-loop example are included so
+the required checkpoints can be reproduced.
 
 ## Setup
 
@@ -213,18 +216,3 @@ It reads `experiment_root` and `synthetic_pool` from the `downstream:` block of
 `config.yaml`, so set those two before running it.
 
 See `05_downstream_training/README.md` for the training protocols and the selection scores.
-
-## Notation
-
-`R_n` denotes `n` real images supplied directly to instance-segmentation training, `S_k`
-denotes `k` BCG synthetic images, and `A_k` denotes `k` additional sampling slots generated
-from the same real subset by the augmentation control. The real subsets are nested.
-
-## Known limitations of this release
-
-- The response-map procedure used for the qualitative analysis is not included.
-- The scripts that aggregate the experiment outputs and draw the result figures are not
-  included. They read directories produced by the training runs and are specific to that
-  layout.
-- The two Blender files are included, but HDRI/EXR environment maps are not redistributed.
-  Users must download those separately.

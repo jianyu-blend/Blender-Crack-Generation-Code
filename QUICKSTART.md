@@ -63,10 +63,10 @@ Replace the value below with the same `workspace_root` used in `config.yaml`:
 
 ```powershell
 $BCG_WORKSPACE = (Resolve-Path ..\bcg_workspace).Path
-python .\04_real_mask_analysis\real_mask_analysis.py draw-test-masks --partition train --expect-images 1000
-python .\04_real_mask_analysis\real_mask_analysis.py preview-masks --source "$BCG_WORKSPACE\masks\train_annotations\masks_image" --output "$BCG_WORKSPACE\masks\train_reconstructed" --count 1000
-python .\04_real_mask_analysis\real_mask_analysis.py preview-masks --source "$BCG_WORKSPACE\masks\train_annotations\masks_image" --output "$BCG_WORKSPACE\analysis\mask_preview_train" --count 50
-python .\04_real_mask_analysis\real_mask_analysis.py verify-masks --partition train --output "$BCG_WORKSPACE\masks\train_reconstructed" --accepted "$BCG_WORKSPACE\analysis\mask_preview_train"
+python .\01_crack_path_generation\preprocessing\mask_preprocessing.py draw-test-masks --partition train --expect-images 1000
+python .\01_crack_path_generation\preprocessing\mask_preprocessing.py preview-masks --source "$BCG_WORKSPACE\masks\train_annotations\masks_image" --output "$BCG_WORKSPACE\masks\train_reconstructed" --count 1000
+python .\01_crack_path_generation\preprocessing\mask_preprocessing.py preview-masks --source "$BCG_WORKSPACE\masks\train_annotations\masks_image" --output "$BCG_WORKSPACE\analysis\mask_preview_train" --count 50
+python .\01_crack_path_generation\preprocessing\mask_preprocessing.py verify-masks --partition train --output "$BCG_WORKSPACE\masks\train_reconstructed" --accepted "$BCG_WORKSPACE\analysis\mask_preview_train"
 ```
 
 ## 5. Train the crack-probability U-Net
