@@ -60,10 +60,10 @@ materials, lighting conditions, crack geometries and camera distances.
   <tr>
     <td><img src="docs/generated_light_brick.jpg" alt="Light brick wall" width="140" height="140"></td>
     <td><img src="docs/generated_grey_brick.jpg" alt="Grey brick wall" width="140" height="140"></td>
-    <td><img src="docs/generated_dark_brick.jpg" alt="Dark brick wall" width="140" height="140"></td>
     <td><img src="docs/generated_weathered_red_brick.jpg" alt="Weathered red brick wall" width="140" height="140"></td>
-    <td><img src="docs/generated_red_brick_closeup.jpg" alt="Red brick close-up" width="140" height="140"></td>
-    <td><img src="docs/generated_grey_brick_closeup.jpg" alt="Grey brick close-up" width="140" height="140"></td>
+    <td><img src="docs/generated_dark_oblique.jpg" alt="Oblique view of dark brick wall" width="140" height="140"></td>
+    <td><img src="docs/generated_red_oblique.jpg" alt="Oblique view of red brick wall" width="140" height="140"></td>
+    <td><img src="docs/generated_blue_oblique.jpg" alt="Oblique view of blue-grey brick wall" width="140" height="140"></td>
   </tr>
 </table>
 

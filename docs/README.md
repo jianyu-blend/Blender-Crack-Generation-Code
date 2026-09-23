@@ -9,10 +9,10 @@ RGB examples referenced from the top-level `README.md`:
 |---|---|
 | `generated_light_brick.jpg` | Light brick wall with a stepped crack |
 | `generated_grey_brick.jpg` | Grey brick wall with a central crack |
-| `generated_dark_brick.jpg` | Dark weathered masonry |
 | `generated_weathered_red_brick.jpg` | Weathered red brick wall |
-| `generated_red_brick_closeup.jpg` | Close view of a crack through red bricks |
-| `generated_grey_brick_closeup.jpg` | Close view of a crack through grey bricks |
+| `generated_dark_oblique.jpg` | Oblique view of dark brick masonry |
+| `generated_red_oblique.jpg` | Oblique view of a crack through red bricks |
+| `generated_blue_oblique.jpg` | Oblique view of a crack through blue-grey bricks |
 
 Keep these small. A few hundred kilobytes each is enough for a README; they are illustrations,
 not data. If a figure is only needed once, prefer a downscaled copy over the full render.
