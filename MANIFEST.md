@@ -1,7 +1,7 @@
 # Release manifest
 
-Inventory of this repository and its relationship to the manuscript. 43 files, approximately
-9.63 MiB.
+Inventory of this repository and its relationship to the manuscript. 36 files, approximately
+9.41 MiB.
 
 | Directory | Files | Manuscript section |
 |---|---:|---|
